@@ -44,37 +44,43 @@ def clean_currency_string(val):
 # Rule-based local pre-categorizer to process large rows instantly without hitting AI limits
 def local_categorize(desc):
     """
-    Rule-based local pre-categorizer to process large rows instantly 
-    without hitting AI token or rate limits.
+    Rule-based local pre-categorizer with explicit handling for 
+    ICCL Mutual Fund SIPs and ICCW ATM Failed Transaction Refunds.
     """
-    # 1. Convert to string and clear out the hardcoded 'Miscellaneous' string noise
     cleaned_desc = str(desc).replace("Miscellaneous", "").strip().upper()
     
-    # 2. Stock Market Investments & Trading accounts
-    if any(keyword in cleaned_desc for keyword in ["MONEY LIC", "MONEYLICIOUS", "RAISE SECURITIES", "DS AXISCN"]):
+    # 1. ATM Failed Transactions & Reversals (ICCW FA)
+    if "ICCW FA" in cleaned_desc or "FAILED TRANCATION" in cleaned_desc or "REFUND" in cleaned_desc:
+        return "ATM Reversals & Refunds"
+
+    # 2. Mutual Fund SIPs via ICCL (Indian Clearing Corporation Ltd)
+    elif "ICCLDHR" in cleaned_desc or "INDIAN CLEARING CORP" in cleaned_desc:
         return "Investments & Trading"
         
-    # 3. Mobile Recharges, Online Shopping & Bank Charges
+    # 3. Other Stock Market Accounts
+    elif any(keyword in cleaned_desc for keyword in ["MONEY LIC", "MONEYLICIOUS", "RAISE SECURITIES", "DS AXISCN"]):
+        return "Investments & Trading"
+        
+    # 4. Mobile Recharges & Utilities
     elif any(keyword in cleaned_desc for keyword in ["JIO MOBIL", "JIO PREP", "AMAZON", "SMS CHARGES", "NEXTGENFASTFAS"]):
         return "Bills & Utilities"
         
-    # 4. Cash Transactions & Physical Deposits
+    # 5. Cash Transactions & Physical Deposits
     elif any(keyword in cleaned_desc for keyword in ["BY CASH", "CARDLESS DEPOSIT", "CASH DEPOSITS"]):
         return "Cash Deposits"
         
-    # 5. sip & ATM refunds (Indian Oil / ICC)
-    elif any(keyword in cleaned_desc for keyword in ["INDIAN O", "ICCW", "ICCLDHR"]):
-        return "Fuel & Commute"
+    # 6. Standard Cardless ATM Withdrawals (Successful ones)
+    elif "ICCW" in cleaned_desc:
+        return "ATM Cash Withdrawals"
         
-    # 6. Peer-to-Peer Transfers & Recurring Party Receipts
+    # 7. Peer-to-Peer Transfers
     elif any(keyword in cleaned_desc for keyword in ["SANJAY K", "NARESH M", "BELA KUM", "BABLU KU", "MIHIR K", "GOURI PR", "RAKESH K"]):
         return "Peer Transfers"
         
-    # 7. Fixed Account Interest Credits
+    # 8. Fixed Account Interest Credits
     elif "INT.PD" in cleaned_desc or "INT CARD" in cleaned_desc:
         return "Bank Interest Income"
         
-    # 8. Fallback for truly unique rows that need AI review
     return "Other Expenses"
 
 if uploaded_file is not None:
