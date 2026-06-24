@@ -163,14 +163,19 @@ if uploaded_file is not None:
                         Transaction_Count=('Net_Amount', 'count'),
                         Total_Net_Volume=('Net_Amount', 'sum')
                     ).reset_index().to_string(index=False)
-                    
+
                     prompt = f"""
-                    You are a premium AI Chief Financial Officer. Review the aggregated structural summary of this user's entire transaction ledger.
-                    Provide a top-tier executive strategic response detailing layout observations, capital leaks, and asset distribution recommendations.
-                    
-                    Here is the compressed file data summary:
-                    {ai_summary}
-                    """
+You are an expert Indian financial analytics assistant.
+Analyze the following summarized banking transaction dataset.
+
+CRITICAL INSTRUCTIONS FOR CURRENCY FORMATTING:
+- NEVER use the dollar sign ($) anywhere in your analysis.
+- Keep the exact raw numeric values from the data but swap the symbol. For example, if you calculate 4,200, display it strictly as \u20b94,200 (DO NOT convert \u20b94,200 into $50 USD).
+- Every single monetary transaction value, budget cap, or total breakdown figure MUST be prefixed with the Indian Rupee symbol (\u20b9).
+
+Data Summary:
+{ai_summary}
+"""
                     
                     response = client.chat.completions.create(
                         messages=[
