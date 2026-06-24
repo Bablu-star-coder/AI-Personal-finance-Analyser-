@@ -5,7 +5,7 @@ An intelligent, production-grade automated personal finance dashboard that proce
 [![Python Version](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/)
 [![Streamlit Framework](https://img.shields.io/badge/framework-Streamlit-FF4B4B.svg)](https://streamlit.io/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Security Status](https://img.shields.io/badge/security-secrets--hidden-success.svg)](#-security-and-environment-isolation)
+[![Security Status](https:/git/img.shields.io/badge/security-secrets--hidden-success.svg)](#-security-and-environment-isolation)
 
 ---
 

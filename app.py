@@ -43,19 +43,39 @@ def clean_currency_string(val):
 
 # Rule-based local pre-categorizer to process large rows instantly without hitting AI limits
 def local_categorize(desc):
-    desc = str(desc).lower()
-    if 'invesment' in desc or 'sip' in desc or 'mutual' in desc or 'shares' in desc:
-        return 'Investments'
-    elif 'recharge' in desc or 'mobile' in desc or 'bill' in desc:
-        return 'Bills & Recharges'
-    elif 'cash deposit' in desc or 'deposit' in desc:
-        return 'Cash Deposits'
-    elif 'father' in desc or 'upi transfer' in desc or 'transfer' in desc:
-        return 'UPI Transfers'
-    elif 'money received' in desc or 'salary' in desc:
-        return 'Income Inflow'
-    else:
-        return 'Miscellaneous'
+    """
+    Rule-based local pre-categorizer to process large rows instantly 
+    without hitting AI token or rate limits.
+    """
+    # 1. Convert to string and clear out the hardcoded 'Miscellaneous' string noise
+    cleaned_desc = str(desc).replace("Miscellaneous", "").strip().upper()
+    
+    # 2. Stock Market Investments & Trading accounts
+    if any(keyword in cleaned_desc for keyword in ["MONEY LIC", "MONEYLICIOUS", "RAISE SECURITIES", "DS AXISCN"]):
+        return "Investments & Trading"
+        
+    # 3. Mobile Recharges, Online Shopping & Bank Charges
+    elif any(keyword in cleaned_desc for keyword in ["JIO MOBIL", "JIO PREP", "AMAZON", "SMS CHARGES", "NEXTGENFASTFAS"]):
+        return "Bills & Utilities"
+        
+    # 4. Cash Transactions & Physical Deposits
+    elif any(keyword in cleaned_desc for keyword in ["BY CASH", "CARDLESS DEPOSIT", "CASH DEPOSITS"]):
+        return "Cash Deposits"
+        
+    # 5. Fuel & Fuel Stations (Indian Oil / ICC)
+    elif any(keyword in cleaned_desc for keyword in ["INDIAN O", "ICCW", "ICCLDHR"]):
+        return "Fuel & Commute"
+        
+    # 6. Peer-to-Peer Transfers & Recurring Party Receipts
+    elif any(keyword in cleaned_desc for keyword in ["SANJAY K", "NARESH M", "BELA KUM", "BABLU KU", "MIHIR K", "GOURI PR", "RAKESH K"]):
+        return "Peer Transfers"
+        
+    # 7. Fixed Account Interest Credits
+    elif "INT.PD" in cleaned_desc or "INT CARD" in cleaned_desc:
+        return "Bank Interest Income"
+        
+    # 8. Fallback for truly unique rows that need AI review
+    return "Other Expenses"
 
 if uploaded_file is not None:
     try:
