@@ -74,12 +74,15 @@ def local_categorize(desc):
         return "ATM Cash Withdrawals"
         
     # 7. Peer-to-Peer Transfers
-    elif any(keyword in cleaned_desc for keyword in ["SANJAY K", "NARESH M", "BELA KUM", "BABLU KU", "MIHIR K", "GOURI PR", "RAKESH K" ,"Mr RAMES","Asmit ku", "SUMAN KU"]):
+    elif any(keyword in cleaned_desc for keyword in ["SANJAY K", "NARESH M", "BELA KUM", "BABLU KU", "MIHIR K", "GOURI PR", "RAKESH K" ,"MR RAMES","ASMIT KU", "SUMAN KU","RUDRA PR", "RANJIT K"]):
         return "Peer Transfers"
         
     # 8. Fixed Account Interest Credits
     elif "INT.PD" in cleaned_desc or "INT CARD" in cleaned_desc:
         return "Bank Interest Income"
+     # 9. Transport & Commute
+    elif any(keyword in cleaned_desc for keyword in ["UBER", "OLA", "RAPIDO", "METRO", "TRAIN", "BMTC BUS"]):
+        return "Transport & Commute"
         
     return "Other Expenses"
 
