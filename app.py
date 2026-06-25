@@ -58,8 +58,7 @@ def local_categorize(desc):
         return "Investments & Trading"
         
     # 3. Other Stock Market Accounts
-    elif any(keyword in cleaned_desc for keyword in ["MONEY LIC", "MONEYLICIOUS", "RAISE SECURITIES", "DS AXISCN", "Raise
-Se"]):
+    elif any(keyword in cleaned_desc for keyword in ["MONEY LIC", "MONEYLICIOUS", "RAISE SECURITIES", "DS AXISCN", "Raise se"]):
         return "Investments & Trading"
         
     # 4. Mobile Recharges & Utilities
