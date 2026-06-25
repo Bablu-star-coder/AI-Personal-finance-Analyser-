@@ -73,7 +73,8 @@ def process_and_categorize_statement(df):
             return "Peer Transfers"
         elif "INT.PD" in cleaned or "INT CARD" in cleaned:
             return "Bank Interest Income"
-        
+        elif "BMTC BUS" in cleaned or any(keyword in cleaned for keyword in ["UBER", "OLA", "RAPIDO", "METRO", "TRAIN"]):
+            return "Transport & Commute"
         return "Other Spending"
 
     processed_df['Category'] = processed_df['Description'].apply(local_categorize)
