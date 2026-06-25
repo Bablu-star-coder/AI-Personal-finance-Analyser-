@@ -58,11 +58,12 @@ def local_categorize(desc):
         return "Investments & Trading"
         
     # 3. Other Stock Market Accounts
-    elif any(keyword in cleaned_desc for keyword in ["MONEY LIC", "MONEYLICIOUS", "RAISE SECURITIES", "DS AXISCN"]):
+    elif any(keyword in cleaned_desc for keyword in ["MONEY LIC", "MONEYLICIOUS", "RAISE SECURITIES", "DS AXISCN", "Raise
+Se"]):
         return "Investments & Trading"
         
     # 4. Mobile Recharges & Utilities
-    elif any(keyword in cleaned_desc for keyword in ["JIO MOBIL", "JIO PREP", "AMAZON", "SMS CHARGES", "NEXTGENFASTFAS"]):
+    elif any(keyword in cleaned_desc for keyword in ["JIO MOBIL", "JIO PREP", "AMAZON", "SMS CHARGES", "NEXTGENFASTFAS" , "paytm-jiomobil" , "Flipkart"]):
         return "Bills & Utilities"
         
     # 5. Cash Transactions & Physical Deposits
@@ -74,7 +75,8 @@ def local_categorize(desc):
         return "ATM Cash Withdrawals"
         
     # 7. Peer-to-Peer Transfers
-    elif any(keyword in cleaned_desc for keyword in ["SANJAY K", "NARESH M", "BELA KUM", "BABLU KU", "MIHIR K", "GOURI PR", "RAKESH K"]):
+    elif any(keyword in cleaned_desc for keyword in ["SANJAY K", "NARESH M", "BELA KUM", "BABLU KU", "MIHIR K", "GOURI PR", "RAKESH K" ,"Mr
+RAMES","Asmit ku"]):
         return "Peer Transfers"
         
     # 8. Fixed Account Interest Credits
